@@ -14,6 +14,8 @@ Lets the admin add "featured" or "buried" css class to selected comments. Handy 
 
 This plugin makes use of the meta_query option added in WordPress 3.5 to the WP_Comment_Query class, so it is no longer compatible with earlier versions of WordPress.
 
+Please report bugs and suggestions on [Github](https://github.com/pippinsplugins/Featured-Comments).
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
