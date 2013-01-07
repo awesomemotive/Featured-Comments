@@ -121,7 +121,7 @@ final class Featured_Comments {
 	// Scripts
 	function print_scripts() {
 		if ( current_user_can( 'moderate_comments' ) ) {
-			wp_enqueue_script( 'featured_comments', plugin_dir_url( __FILE__ ) . 'feature-comments.js', array( 'jquery' ) );
+			wp_enqueue_script( 'featured_comments', plugin_dir_url( __FILE__ ) . 'feature-comments.js', array( 'jquery' ), filemtime( dirname( __FILE__ ) . '/feature-comments.js' ) );
 			wp_localize_script( 'featured_comments', 'featured_comments', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		}
 	}
