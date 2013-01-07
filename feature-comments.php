@@ -192,9 +192,10 @@ final class Featured_Comments {
 		$data_id    = ' data-comment_id=' . $comment_id;
 
 		$current_status = implode( ' ', self::comment_class() );
-		$o = '<br/>';
+		$o = '<div class="feature-burry-comments">';
 		foreach( self::$actions as $action => $label )
 		    $o .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
+		$o .= '</div>';
 
 		return $comment_text . $o;
     }
