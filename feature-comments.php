@@ -236,6 +236,7 @@ final class Featured_Comments {
 			comment_footer_die( __( 'You are not allowed to edit comments on this post.', 'featured-comments' ) );
 
 		update_comment_meta( $comment_id, 'featured', isset( $_POST['featured'] ) ? '1' : '0' );
+		update_comment_meta( $comment_id, 'buried',   isset( $_POST['buried'] )   ? '1' : '0' );
 	}
 
 	function comment_meta_box() {
@@ -245,7 +246,9 @@ final class Featured_Comments {
 		echo '<p>';
 		echo wp_nonce_field( plugin_basename( __FILE__ ), 'featured_comments_nonce' );
 		echo '<input id = "featured" type="checkbox" name="featured" value="true"' . checked( true, self::is_comment_featured( $comment_id ), false ) . '/>';
-		echo ' <label for="featured">' . __( "Featured", 'featured-comments' ) . '</label>';
+		echo ' <label for="featured">' . __( "Featured", 'featured-comments' ) . '</label>&nbsp;';
+		echo '<input id = "buried" type="checkbox" name="buried" value="true"' . checked( true, self::is_comment_buried( $comment_id ), false ) . '/>';
+		echo ' <label for="buried">' . __( "Buried", 'featured-comments' ) . '</label>';
 		echo '</p>';
 	}
 
