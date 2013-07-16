@@ -55,6 +55,7 @@ final class Featured_Comments {
 			self::$instance->includes();
 			self::$instance->init();
 			self::$instance->load_textdomain();
+			do_action( 'featured_comments_loaded' );
 		}
 		return self::$instance;
 	}
