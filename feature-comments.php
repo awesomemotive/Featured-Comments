@@ -7,6 +7,8 @@ Version: 1.2.1
 Author: Pippin Williamson
 Author URI: http://pippinsplugins.com
 Contributors: mordauk, Utkarsh
+Text Domain: featured-comments
+Domain path: /languages
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -100,7 +102,7 @@ final class Featured_Comments {
 
 		// Traditional WordPress plugin locale filter
 		$locale        = apply_filters( 'plugin_locale',  get_locale(), 'featured-comments' );
-		$mofile        = sprintf( '%1$s-%2$s.mo', 'edd', $locale );
+		$mofile        = sprintf( '%1$s-%2$s.mo', 'featured-comments', $locale );
 
 		// Setup paths to current locale file
 		$mofile_local  = $lang_dir . $mofile;
