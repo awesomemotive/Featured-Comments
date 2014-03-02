@@ -113,6 +113,9 @@ class Featured_Comments_Widget extends WP_Widget {
 
 	} // end widget
 
+	function flush_widget_cache() {
+		wp_cache_delete( 'featured_comments_widget', 'widget' );
+	}
 
 	/**
 	 * Generates the administration form for the widget.
