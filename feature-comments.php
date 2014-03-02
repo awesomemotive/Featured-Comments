@@ -172,11 +172,11 @@ final class Featured_Comments {
 					break;
 
 				case 'bury':
-                    add_comment_meta( $comment_id, 'buried', '1');
+                    add_comment_meta( $comment_id, 'buried', '1' );
                 break;
 
                 case 'unbury':
-                    delete_comment_meta( $comment_id, 'buried', '0');
+                    delete_comment_meta( $comment_id, 'buried' );
                 break;
 
 			}
@@ -236,8 +236,19 @@ final class Featured_Comments {
 		if ( !current_user_can( 'moderate_comments', $comment_id ) )
 			comment_footer_die( __( 'You are not allowed to edit comments on this post.', 'featured-comments' ) );
 
-		update_comment_meta( $comment_id, 'featured', isset( $_POST['featured'] ) ? '1' : '0' );
-		update_comment_meta( $comment_id, 'buried',   isset( $_POST['buried'] )   ? '1' : '0' );
+		// Handle feature
+		if ( isset( $_POST['featured'] ) ) {
+			update_comment_meta( $comment_id, 'featured', '1' );
+		} else {
+			delete_comment_meta( $comment_id, 'featured' );
+		}
+
+		// Handle bury
+		if ( isset( $_POST['buried'] ) ) {
+			update_comment_meta( $comment_id, 'buried', '1' );
+		} else {
+			delete_comment_meta( $comment_id, 'buried' );
+		}
 	}
 
 	function comment_meta_box() {
@@ -268,16 +279,12 @@ final class Featured_Comments {
 	}
 
 	private function is_comment_featured( $comment_id ) {
-		if ( '1' == get_comment_meta( $comment_id, 'featured', true ) )
-			return 1;
-		return 0;
+		return '1' == get_comment_meta( $comment_id, 'featured', true );
 	}
 
 
 	private static function is_comment_buried( $comment_id ) {
-	    if( '1' == get_comment_meta( $comment_id, 'buried', true ) )
-	        return 1;
-	    return 0;
+	    return '1' == get_comment_meta( $comment_id, 'buried', true );
 	}
 
 }
