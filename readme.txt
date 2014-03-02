@@ -37,7 +37,7 @@ All the options will be automatically added to the edit comments table, and sing
 
 * Re-added Buried checkbox to the edit comment screen
 * Added a file-modified-time version number to the JS to ensure file is not cached between updates
-* Added a div.feature-burry-comments wrapper to the Feature | Bury links added to comments
+* Added a div.feature-bury-comments wrapper to the Feature | Bury links added to comments
 
 = 1.2 =
 
@@ -76,7 +76,7 @@ All the options will be automatically added to the edit comments table, and sing
 
 * Re-added Buried checkbox to the edit comment screen
 * Added a file-modified-time version number to the JS to ensure file is not cached between updates
-* Added a div.feature-burry-comments wrapper to the Feature | Bury links added to comments
+* Added a div.feature-bury-comments wrapper to the Feature | Bury links added to comments
 
 = 1.2 =
 
