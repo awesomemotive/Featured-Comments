@@ -43,7 +43,7 @@ final class Featured_Comments {
 	/**
 	 * Main Featured_Comments Instance
 	 *
-	 * Insures that only one instance of Featured_Comments exists in memory at any one
+	 * Ensures that only one instance of Featured_Comments exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
 	 *
 	 * @since v1.0
@@ -150,7 +150,7 @@ final class Featured_Comments {
 
 	function ajax() {
 
-		if ( !isset( $_POST['do'] ) ) die;
+		if ( ! isset( $_POST['do'] ) ) die;
 
 		$action = $_POST['do'];
 
@@ -187,7 +187,7 @@ final class Featured_Comments {
 	}
 
 	function comment_text( $comment_text ) {
-		if( is_admin() || ! current_user_can( 'moderate_comments' ) ) return $comment_text;
+		if ( is_admin() || ! current_user_can( 'moderate_comments' ) ) return $comment_text;
 
 		global $comment;
 
@@ -196,7 +196,7 @@ final class Featured_Comments {
 
 		$current_status = implode( ' ', self::comment_class() );
 		$o = '<div class="feature-bury-comments">';
-		foreach( self::$actions as $action => $label )
+		foreach ( self::$actions as $action => $label )
 		    $o .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
 		$o .= '</div>';
 
@@ -235,7 +235,7 @@ final class Featured_Comments {
 		if ( ! wp_verify_nonce( $_POST['featured_comments_nonce'], plugin_basename( __FILE__ ) ) )
 			return;
 
-		if ( !current_user_can( 'moderate_comments', $comment_id ) )
+		if ( ! current_user_can( 'moderate_comments', $comment_id ) )
 			comment_footer_die( __( 'You are not allowed to edit comments on this post.', 'featured-comments' ) );
 
 		// Handle feature
@@ -274,7 +274,7 @@ final class Featured_Comments {
 		if ( self::is_comment_featured( $comment_id ) )
 			$classes[] = 'featured';
 
-		if( self::is_comment_buried( $comment_id ) )
+		if ( self::is_comment_buried( $comment_id ) )
 			$classes [] = 'buried';
 
 		return $classes;
@@ -296,5 +296,5 @@ function wp_featured_comments_load() {
 	return Featured_Comments::instance();
 }
 
-// load Easy Featured Comments
+// load Featured Comments
 wp_featured_comments_load();
