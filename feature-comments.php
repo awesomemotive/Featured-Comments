@@ -148,7 +148,7 @@ final class Featured_Comments {
 
 	function ajax() {
 
-		if ( !isset( $_POST['do'] ) ) die;
+		if ( ! isset( $_POST['do'] ) ) die;
 
 		$action = $_POST['do'];
 
