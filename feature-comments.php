@@ -157,9 +157,15 @@ final class Featured_Comments {
 		if ( in_array( $action, $actions ) ) {
 
 			$comment_id = absint( $_POST['comment_id'] );
+			$comment    = get_comment( $comment_id );
 
-			if ( ! $comment = get_comment( $comment_id ) || ! current_user_can( 'edit_post', $comment->comment_post_ID ) )
+			if ( ! $comment ) {
 				die;
+			}
+
+			if( ! current_user_can( 'edit_comment', $comment_id ) ) {
+				die;
+			}
 
 			switch ( $action ) {
 
