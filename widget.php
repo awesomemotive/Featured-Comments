@@ -40,6 +40,8 @@ class Featured_Comments_Widget extends WP_Widget {
 
 		$title  = apply_filters( 'widget_title', $instance['title'] );
 
+		$output = '';
+
 		if( empty( $number ) || ! $number = absint( $number ) )
 			$number = 5;
 
