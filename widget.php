@@ -107,8 +107,6 @@ class Featured_Comments_Widget extends WP_Widget {
 		$instance['title']  = sanitize_text_field( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
 
-		$this->flush_widget_cache();
-
 		return $instance;
 
 	} // end widget
