@@ -75,7 +75,7 @@ class Featured_Comments_Widget extends WP_Widget {
 						$output .=  '<li class="featured-comments">';
 							$output .= sprintf(
 								_x( '%1$s on %2$s', 'widgets' ),
-								get_comment_author_link(),
+								get_comment_author_link( $comment->comment_ID ),
 								'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
 							);
 						$output .= '</li>';
