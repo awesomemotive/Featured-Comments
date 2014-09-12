@@ -3,8 +3,8 @@ Contributors: mordauk, Utkarsh
 Donate link: http://pippinsplugins.com/support-the-site
 Tags: comments, featured comments, feature comments, Pippin's Plugins, pippinsplugins, recent comments
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 1.2.3
+Tested up to: 4.1
+Stable tag: 1.2.4
 
 Lets the admin add "featured" or "buried" css class to selected comments. Handy to highlight comments that add value to your post. Also includes a dedicated widget for showing recently featured comments
 
@@ -32,6 +32,10 @@ All the options will be automatically added to the edit comments table, and sing
 3. Class added to comment, as seen on the frontend (screenshot shows source viewed in Firebug)
 
 == Changelog ==
+
+= 1.2.4 =
+
+* Fixed a bug with the Featured Comments widget and not being able to properly set the number of comments to show
 
 = 1.2.3 =
 
