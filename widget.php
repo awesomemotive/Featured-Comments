@@ -36,57 +36,57 @@ class Featured_Comments_Widget extends WP_Widget {
 			return;
 		}
 
-		extract( $args, EXTR_SKIP );
-
 		$title  = apply_filters( 'widget_title', $instance['title'] );
 
 		$output = '';
 
-		if( empty( $number ) || ! $number = absint( $number ) )
-			$number = 5;
+		if( empty( $instance['number'] ) || $instance['number'] < 1 ) {
+			$intance['number'] = 5;
+		}
 
-			$query_args = apply_filters( 'featured_comments_query', array(
-				'number'      => $number,
-				'status'      => 'approve',
-				'post_status' => 'publish',
-				'meta_query'  => array(
-					array(
-						'key'    => 'featured',
-						'value'  => '1'
-					)
+		$query_args = apply_filters( 'featured_comments_query', array(
+			'number'      => $instance['number'],
+			'status'      => 'approve',
+			'post_status' => 'publish',
+			'meta_query'  => array(
+				array(
+					'key'    => 'featured',
+					'value'  => '1'
 				)
-			) );
+			)
+		) );
 
-			$query    = new WP_Comment_Query;
+		$query    = new WP_Comment_Query;
 
-			$comments = $query->query( $query_args );
+		$comments = $query->query( $query_args );
 
-			if( $comments ) :
+		if( $comments ) :
 
-				$output = $before_widget;
-				if ( $title )
-					$output .= $before_title . $title . $after_title;
+			$output = $args['before_widget'];
+			if ( $title ) {
+				$output .= $args['before_title'] . $title . $args['after_title'];
+			}
 
-				$output .= '<ul id="featured-comments">';
+			$output .= '<ul id="featured-comments">';
 
-				if ( $comments ) {
+			if ( $comments ) {
 
-					foreach ( (array) $comments as $comment) {
-						$output .=  '<li class="featured-comments">';
-							$output .= sprintf(
-								_x( '%1$s on %2$s', 'widgets' ),
-								get_comment_author_link( $comment->comment_ID ),
-								'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
-							);
-						$output .= '</li>';
-					}
+				foreach ( (array) $comments as $comment) {
+					$output .=  '<li class="featured-comments">';
+						$output .= sprintf(
+							_x( '%1$s on %2$s', 'widgets' ),
+							get_comment_author_link( $comment->comment_ID ),
+							'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
+						);
+					$output .= '</li>';
+				}
 
-		 		}
-				$output .= '</ul>';
+	 		}
+			$output .= '</ul>';
 
-			endif;
+		endif;
 
-		$output .= $after_widget;
+		$output .= $args['after_widget'];
 
 		echo $output;
 
@@ -108,6 +108,8 @@ class Featured_Comments_Widget extends WP_Widget {
 
 		$instance['title']  = sanitize_text_field( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
+
+		wp_cache_delete( 'featured_comments_widget', 'widget' );
 
 		return $instance;
 
