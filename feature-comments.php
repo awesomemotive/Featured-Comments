@@ -7,6 +7,8 @@ Version: 1.2.4
 Author: Pippin Williamson
 Author URI: http://pippinsplugins.com
 Contributors: mordauk, Utkarsh
+Text Domain: featured-comments
+Domain path: /languages
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +43,7 @@ final class Featured_Comments {
 	/**
 	 * Main Featured_Comments Instance
 	 *
-	 * Insures that only one instance of Featured_Comments exists in memory at any one
+	 * Ensures that only one instance of Featured_Comments exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
 	 *
 	 * @since v1.0
@@ -100,7 +102,7 @@ final class Featured_Comments {
 
 		// Traditional WordPress plugin locale filter
 		$locale        = apply_filters( 'plugin_locale',  get_locale(), 'featured-comments' );
-		$mofile        = sprintf( '%1$s-%2$s.mo', 'edd', $locale );
+		$mofile        = sprintf( '%1$s-%2$s.mo', 'featured-comments', $locale );
 
 		// Setup paths to current locale file
 		$mofile_local  = $lang_dir . $mofile;
@@ -178,11 +180,11 @@ final class Featured_Comments {
 					break;
 
 				case 'bury':
-                    add_comment_meta( $comment_id, 'buried', '1');
+                    add_comment_meta( $comment_id, 'buried', '1' );
                 break;
 
                 case 'unbury':
-                    delete_comment_meta( $comment_id, 'buried', '0');
+                    delete_comment_meta( $comment_id, 'buried' );
                 break;
 
 			}
@@ -191,7 +193,7 @@ final class Featured_Comments {
 	}
 
 	function comment_text( $comment_text ) {
-		if( is_admin() || ! current_user_can( 'moderate_comments' ) ) return $comment_text;
+		if ( is_admin() || ! current_user_can( 'moderate_comments' ) ) return $comment_text;
 
 		global $comment;
 
@@ -199,8 +201,8 @@ final class Featured_Comments {
 		$data_id    = ' data-comment_id=' . $comment_id;
 
 		$current_status = implode( ' ', self::comment_class() );
-		$o = '<div class="feature-burry-comments">';
-		foreach( self::$actions as $action => $label )
+		$o = '<div class="feature-bury-comments">';
+		foreach ( self::$actions as $action => $label )
 		    $o .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
 		$o .= '</div>';
 
@@ -239,11 +241,22 @@ final class Featured_Comments {
 		if ( ! wp_verify_nonce( $_POST['featured_comments_nonce'], plugin_basename( __FILE__ ) ) )
 			return;
 
-		if ( !current_user_can( 'moderate_comments', $comment_id ) )
+		if ( ! current_user_can( 'moderate_comments', $comment_id ) )
 			comment_footer_die( __( 'You are not allowed to edit comments on this post.', 'featured-comments' ) );
 
-		update_comment_meta( $comment_id, 'featured', isset( $_POST['featured'] ) ? '1' : '0' );
-		update_comment_meta( $comment_id, 'buried',   isset( $_POST['buried'] )   ? '1' : '0' );
+		// Handle feature
+		if ( isset( $_POST['featured'] ) ) {
+			update_comment_meta( $comment_id, 'featured', '1' );
+		} else {
+			delete_comment_meta( $comment_id, 'featured' );
+		}
+
+		// Handle bury
+		if ( isset( $_POST['buried'] ) ) {
+			update_comment_meta( $comment_id, 'buried', '1' );
+		} else {
+			delete_comment_meta( $comment_id, 'buried' );
+		}
 	}
 
 	function comment_meta_box() {
@@ -267,23 +280,19 @@ final class Featured_Comments {
 		if ( self::is_comment_featured( $comment_id ) )
 			$classes[] = 'featured';
 
-		if( self::is_comment_buried( $comment_id ) )
+		if ( self::is_comment_buried( $comment_id ) )
 			$classes [] = 'buried';
 
 		return $classes;
 	}
 
 	private function is_comment_featured( $comment_id ) {
-		if ( '1' == get_comment_meta( $comment_id, 'featured', true ) )
-			return 1;
-		return 0;
+		return '1' == get_comment_meta( $comment_id, 'featured', true );
 	}
 
 
 	private static function is_comment_buried( $comment_id ) {
-	    if( '1' == get_comment_meta( $comment_id, 'buried', true ) )
-	        return 1;
-	    return 0;
+	    return '1' == get_comment_meta( $comment_id, 'buried', true );
 	}
 
 }
@@ -293,5 +302,5 @@ function wp_featured_comments_load() {
 	return Featured_Comments::instance();
 }
 
-// load Easy Featured Comments
+// load Featured Comments
 wp_featured_comments_load();
