@@ -191,7 +191,9 @@ final class Featured_Comments {
 	}
 
 	function comment_text( $comment_text ) {
-		if( is_admin() || ! current_user_can( 'moderate_comments' ) ) return $comment_text;
+		if( is_admin() || ! current_user_can( 'moderate_comments' ) ) {
+			return $comment_text;
+		}
 
 		global $comment;
 
@@ -199,12 +201,12 @@ final class Featured_Comments {
 		$data_id    = ' data-comment_id=' . $comment_id;
 
 		$current_status = implode( ' ', self::comment_class() );
-		$o = '<div class="feature-burry-comments">';
+		$output = '<div class="feature-burry-comments">';
 		foreach( self::$actions as $action => $label )
-		    $o .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
-		$o .= '</div>';
+		    $output .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
+		$output .= '</div>';
 
-		return $comment_text . $o;
+		return $comment_text . $output;
     }
 
 	function comment_row_actions( $actions ) {
@@ -236,11 +238,13 @@ final class Featured_Comments {
 
 	function save_meta_box_postdata( $comment_id ) {
 
-		if ( ! wp_verify_nonce( $_POST['featured_comments_nonce'], plugin_basename( __FILE__ ) ) )
+		if ( ! wp_verify_nonce( $_POST['featured_comments_nonce'], plugin_basename( __FILE__ ) ) ) {
 			return;
+		}
 
-		if ( !current_user_can( 'moderate_comments', $comment_id ) )
+		if ( !current_user_can( 'moderate_comments', $comment_id ) ) {
 			comment_footer_die( __( 'You are not allowed to edit comments on this post.', 'featured-comments' ) );
+		}
 
 		update_comment_meta( $comment_id, 'featured', isset( $_POST['featured'] ) ? '1' : '0' );
 		update_comment_meta( $comment_id, 'buried',   isset( $_POST['buried'] )   ? '1' : '0' );
@@ -264,25 +268,29 @@ final class Featured_Comments {
 
 		$comment_id = $comment->comment_ID;
 
-		if ( self::is_comment_featured( $comment_id ) )
+		if ( self::is_comment_featured( $comment_id ) ) {
 			$classes[] = 'featured';
+		}
 
-		if( self::is_comment_buried( $comment_id ) )
+		if( self::is_comment_buried( $comment_id ) ) {
 			$classes [] = 'buried';
+		}
 
 		return $classes;
 	}
 
 	private function is_comment_featured( $comment_id ) {
-		if ( '1' == get_comment_meta( $comment_id, 'featured', true ) )
+		if ( '1' == get_comment_meta( $comment_id, 'featured', true ) ) {
 			return 1;
+		}
 		return 0;
 	}
 
 
 	private static function is_comment_buried( $comment_id ) {
-	    if( '1' == get_comment_meta( $comment_id, 'buried', true ) )
+	    if( '1' == get_comment_meta( $comment_id, 'buried', true ) ) {
 	        return 1;
+	    }
 	    return 0;
 	}
 
