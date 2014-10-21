@@ -13,8 +13,9 @@ function featured_comments_click() {
 			featured_comments.ajax_url,
 			{
 				'action' : 'feature_comments',
-				'do': $this.attr('data-do'),
-				'comment_id': $this.attr('data-comment_id')
+				'do': $this.data('do'),
+				'comment_id': $this.data('comment_id'),
+				'nonce': $this.data('nonce')
 			},
 			function ( response ) {
 				var action = $this.attr('data-do'),
@@ -29,6 +30,8 @@ function featured_comments_click() {
 					$this_and_comment.addClass('buried');
 				if ( action == 'unbury' )
 					$this_and_comment.removeClass('buried');
+
+				$this.data( 'nonce', response );
 			}
 		);
 		return false;

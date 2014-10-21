@@ -123,7 +123,9 @@ final class Featured_Comments {
 	function print_scripts() {
 		if ( current_user_can( 'moderate_comments' ) ) {
 			wp_enqueue_script( 'featured_comments', plugin_dir_url( __FILE__ ) . 'feature-comments.js', array( 'jquery' ), filemtime( dirname( __FILE__ ) . '/feature-comments.js' ) );
-			wp_localize_script( 'featured_comments', 'featured_comments', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+			wp_localize_script( 'featured_comments', 'featured_comments', array(
+				'ajax_url' => admin_url( 'admin-ajax.php' )
+			) );
 		}
 	}
 
@@ -167,6 +169,10 @@ final class Featured_Comments {
 				die;
 			}
 
+			if( ! wp_verify_nonce( $_POST['nonce'], 'featured_comments' ) ) {
+				die;
+			}
+
 			switch ( $action ) {
 
 				case 'feature':
@@ -184,6 +190,8 @@ final class Featured_Comments {
                 case 'unbury':
                     delete_comment_meta( $comment_id, 'buried', '0');
                 break;
+
+                die( wp_create_nonce( 'featured_comments' ) );
 
 			}
 		}
@@ -220,11 +228,11 @@ final class Featured_Comments {
 		$current_status = implode( ' ', self::comment_class() );
 
 		$o = '';
-		$o .= "<a data-do='unfeature' {$data_id} class='feature-comments unfeature {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unfeatured:e7e7d3:e7e7d3:new=unfeatured vim-u' title='" . esc_attr__( 'Unfeature this comment', 'featured-comments' ) . "'>" . __( 'Unfeature', 'featured-comments' ) . '</a>';
-		$o .= "<a data-do='feature' {$data_id} class='feature-comments feature {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unfeatured:e7e7d3:e7e7d3:new=featured vim-a' title='" . esc_attr__( 'Feature this comment', 'featured-comments' ) . "'>" . __( 'Feature', 'featured-comments' ) . '</a>';
+		$o .= "<a data-do='unfeature' {$data_id} data-nonce='" . wp_create_nonce( 'featured_comments' ) . "' class='feature-comments unfeature {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unfeatured:e7e7d3:e7e7d3:new=unfeatured vim-u' title='" . esc_attr__( 'Unfeature this comment', 'featured-comments' ) . "'>" . __( 'Unfeature', 'featured-comments' ) . '</a>';
+		$o .= "<a data-do='feature' {$data_id} data-nonce='" . wp_create_nonce( 'featured_comments' ) . "' class='feature-comments feature {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unfeatured:e7e7d3:e7e7d3:new=featured vim-a' title='" . esc_attr__( 'Feature this comment', 'featured-comments' ) . "'>" . __( 'Feature', 'featured-comments' ) . '</a>';
 		$o .= ' | ';
-		$o .= "<a data-do='unbury' {$data_id} class='feature-comments unbury {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unburied:e7e7d3:e7e7d3:new=unburied vim-u' title='" . esc_attr__( 'Unbury this comment', 'featured-comments' ) . "'>" . __( 'Unbury', 'featured-comments' ) . '</a>';
-		$o .= "<a data-do='bury' {$data_id}  class='feature-comments bury {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unburied:e7e7d3:e7e7d3:new=buried vim-a' title='" . esc_attr__( 'Bury this comment', 'featured-comments' ) . "'>" . __( 'Bury', 'featured-comments' ) . '</a>';
+		$o .= "<a data-do='unbury' {$data_id} data-nonce='" . wp_create_nonce( 'featured_comments' ) . "' class='feature-comments unbury {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unburied:e7e7d3:e7e7d3:new=unburied vim-u' title='" . esc_attr__( 'Unbury this comment', 'featured-comments' ) . "'>" . __( 'Unbury', 'featured-comments' ) . '</a>';
+		$o .= "<a data-do='bury' {$data_id}  data-nonce='" . wp_create_nonce( 'featured_comments' ) . "' class='feature-comments bury {$current_status} dim:the-comment-list:comment-{$comment->comment_ID}:unburied:e7e7d3:e7e7d3:new=buried vim-a' title='" . esc_attr__( 'Bury this comment', 'featured-comments' ) . "'>" . __( 'Bury', 'featured-comments' ) . '</a>';
 		$o = "<span class='$current_status'>$o</span>";
 
 		$actions['feature_comments'] = $o;
