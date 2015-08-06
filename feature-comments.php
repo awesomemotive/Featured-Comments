@@ -211,7 +211,7 @@ final class Featured_Comments {
 		$current_status = implode( ' ', self::comment_class() );
 		$output = '<div class="feature-burry-comments">';
 		foreach( self::$actions as $action => $label )
-		    $output .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
+		   $output .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} data-nonce='" . wp_create_nonce( "featured_comments" ) . "' title='{$label}'>{$label}</a> ";
 		$output .= '</div>';
 
 		return $comment_text . $output;
