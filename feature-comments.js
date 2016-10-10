@@ -2,12 +2,12 @@
  * allow this to be called multiple times
  */
 function featured_comments_click() {
-	
+
 	// unbind first
 	jQuery('.feature-comments').unbind('click');
-	
+
 	// rebind
-	jQuery('.wrap').on('click', '.feature-comments', function(){
+	jQuery('body').on('click', '.feature-comments', function(){
 		$this = jQuery(this);
 		jQuery.post (
 			featured_comments.ajax_url,
@@ -36,7 +36,7 @@ function featured_comments_click() {
 		);
 		return false;
 	});
-	
+
 }
 
 /**
@@ -46,7 +46,7 @@ jQuery(document).ready(function($){
 
 	// init click handler
 	featured_comments_click();
-	
+
 	/* Set classes on Edit Comments */
 	$('.feature-comments.feature').each(function(){
 		$this = $(this);
@@ -54,5 +54,5 @@ jQuery(document).ready(function($){
 		if($this.hasClass('featured')) $tr.addClass('featured');
 		if($this.hasClass('buried')) $tr.addClass('buried');
 	});
-	
+
 });
