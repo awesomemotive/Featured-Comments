@@ -176,19 +176,19 @@ final class Featured_Comments {
 			switch ( $action ) {
 
 				case 'feature':
-					add_comment_meta( $comment_id, 'featured', '1' );
+					update_comment_meta( $comment_id, 'featured', '1' ); 
 					break;
 
 				case 'unfeature':
-					delete_comment_meta( $comment_id, 'featured' );
+					update_comment_meta( $comment_id, 'featured', '0' );
 					break;
 
 				case 'bury':
-                    add_comment_meta( $comment_id, 'buried', '1');
+                    update_comment_meta( $comment_id, 'buried', '1');
                 break;
 
                 case 'unbury':
-                    delete_comment_meta( $comment_id, 'buried', '0');
+                    update_comment_meta( $comment_id, 'buried', '0');
                 break;
 
                 die( wp_create_nonce( 'featured_comments' ) );
@@ -210,8 +210,8 @@ final class Featured_Comments {
 
 		$current_status = implode( ' ', self::comment_class() );
 		$output = '<div class="feature-burry-comments">';
-		foreach( self::$actions as $action => $label )
-		    $output .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} title='{$label}'>{$label}</a> ";
+		foreach( self::$actions as $action => $label ) {
+                $output .= "<a class='feature-comments {$current_status} {$action}' data-do='{$action}' {$data_id} data-nonce='" . wp_create_nonce( "featured_comments" ) . "' title='{$label}'>{$label}</a> "; }
 		$output .= '</div>';
 
 		return $comment_text . $output;
