@@ -7,7 +7,7 @@ function featured_comments_click() {
 	jQuery('.feature-comments').unbind('click');
 	
 	// rebind
-	jQuery('.feature-comments').click(function(){
+	jQuery('.wrap').on('click', '.feature-comments', function(){
 		$this = jQuery(this);
 		jQuery.post (
 			featured_comments.ajax_url,
